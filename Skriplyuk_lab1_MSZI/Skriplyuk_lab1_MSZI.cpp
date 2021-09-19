@@ -10,16 +10,20 @@ void Skriplyuk_encryption(string password, string output_file, string input_file
     char sym;
     ofstream output;
     ifstream input;
-    output.open(output_file + ".txt", ios::out);
-    input.open(input_file + ".txt", ios::in);
+    output.open(output_file + ".txt", ios::binary);
+    input.open(input_file + ".txt", ios::binary);
     int number = 0;
     while (true)
     {
         input.get(sym);
-        if (input.eof()) break;
-        output << (unsigned char)(sym + password[number]);
-        if (number % password.length() == 0) number = 0;
-        else number++;
+        if (input.eof())
+        {
+            input.close();
+            output.close();
+            break;
+        }
+        output << (unsigned char)(sym + password[number % password.length()]);
+        number++;
     }
 }
 
@@ -28,16 +32,20 @@ void Skriplyuk_decryption(string password, string output_file, string input_file
     char sym;
     ofstream output;
     ifstream input;
-    output.open(output_file + ".txt", ios::out);
-    input.open(input_file + ".txt", ios::in);
+    output.open(output_file + ".txt", ios::binary);
+    input.open(input_file + ".txt", ios::binary);
     int number = 0;
     while (true)
     {
         input.get(sym);
-        if (input.eof()) break;
-        output << (unsigned char)(sym - password[number]);
-        if (number % password.length() == 0) number = 0;
-        else number++;
+        if (input.eof())
+        {
+            input.close();
+            output.close();
+            break;
+        }
+        output << (unsigned char)(sym - password[number % password.length()]);
+        number++;
     }
 }
 
